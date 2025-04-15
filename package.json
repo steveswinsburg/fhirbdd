@@ -1,1 +1,22 @@
-
+{
+  "name": "firebed",
+  "version": "0.1.0",
+  "description": "A Cucumber test generator for FHIR IGs, using BDD.",
+  "main": "dist/index.js",
+  "bin": {
+    "firebed": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/cli.js",
+    "test": "jest"
+  },
+  "keywords": ["fhir", "bdd", "gherkin", "cucumber", "test", "cli"],
+  "author": "Steve Swinsburg",
+  "dependencies": {},
+  "devDependencies": {
+    "tsup": "^7.0.0",
+    "typescript": "^5.0.0"
+  }
+}
