@@ -27,9 +27,11 @@ firebed generate \
   --output ./features
 ```
 
-**Options:**
-*	`--ig` - Path to your FHIR IG package (.tgz or unpacked folder)
-*	`--output` - Directory to save generated feature files
+Options:
+```
+--ig - Path to your FHIR IG package (.tgz)
+--output - Directory to save generated feature files
+```
 
 ### 🧪 Example Output
 ```
