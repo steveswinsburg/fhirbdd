@@ -46,9 +46,9 @@ Feature: Search for Patient by identifier
 ## 🤝 Contributing
 
 PRs welcome! To contribute:
-	1.	Fork the repo
-	2.	Create a feature branch
-	3.	Submit a pull request with a clear description
+1. Fork the repo
+2. Create a feature branch
+3. Submit a pull request with a clear description
 
 ## 💬 Feedback
 
