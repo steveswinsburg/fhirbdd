@@ -7,7 +7,10 @@ import {
   resourceResponderScenarioTemplate,
   interactionFeatureTemplate,
   interactionRequesterScenarioTemplate,
-  interactionResponderScenarioTemplate
+  interactionResponderScenarioTemplate,
+  searchParamFeatureTemplate,
+  searchParamRequesterScenarioTemplate,
+  searchParamResponderScenarioTemplate
 } from "../templates/capabilityStatementTemplates";
 import {
   buildScenario,
@@ -15,9 +18,10 @@ import {
   writeFeatureFile
 } from "../utils/featureUtils";
 
-function extractResourceExpectations(json: any, role: string, isRequester: boolean): string[] {
+function extractResourceExpectations(json: any, role: string, type: "requester" | "responder"): string[] {
   const scenarios: string[] = [];
-  const scenarioTemplate = isRequester ? resourceRequesterScenarioTemplate : resourceResponderScenarioTemplate;
+  const scenarioTemplate = type === "requester" ? resourceRequesterScenarioTemplate : resourceResponderScenarioTemplate;
+
 
   for (const rest of json.rest || []) {
     for (const resource of rest.resource || []) {
@@ -44,9 +48,9 @@ function extractResourceExpectations(json: any, role: string, isRequester: boole
   return scenarios;
 }
 
-function extractInteractionExpectations(json: any, role: string, isRequester: boolean): string[] {
+function extractInteractionExpectations(json: any, role: string, type: "requester" | "responder"): string[] {
   const scenarios: string[] = [];
-  const scenarioTemplate = isRequester ? interactionRequesterScenarioTemplate : interactionResponderScenarioTemplate;
+  const scenarioTemplate = type === "requester" ? interactionRequesterScenarioTemplate : interactionResponderScenarioTemplate;
 
   for (const rest of json.rest || []) {
     for (const resource of rest.resource || []) {
@@ -70,6 +74,37 @@ function extractInteractionExpectations(json: any, role: string, isRequester: bo
             }
           });
 
+          scenarios.push(scenario);
+        }
+      }
+    }
+  }
+
+  return scenarios;
+}
+
+function extractSearchParameterExpectations(json: any, role: string, type: "requester" | "responder"): string[] {
+  const scenarios: string[] = [];
+  const scenarioTemplate = type === "requester" ? searchParamRequesterScenarioTemplate : searchParamResponderScenarioTemplate;
+
+  for (const rest of json.rest || []) {
+    for (const resource of rest.resource || []) {
+      const resourceType = resource.type;
+      for (const param of resource.searchParam || []) {
+        const ext = (param.extension || []).find(
+          (e: any) => e.url === "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
+        );
+
+        if (ext && param.name) {
+          const scenario = buildScenario({
+            template: scenarioTemplate,
+            replacements: {
+              ROLE: role,
+              EXPECTATION: ext.valueCode,
+              RESOURCE_TYPE: resourceType,
+              SEARCH_PARAM: param.name
+            }
+          });
           scenarios.push(scenario);
         }
       }
@@ -115,10 +150,11 @@ export function parseCapabilityStatement(filePath: string, outputDir?: string): 
   const json = JSON.parse(content);
   const rawRole = filePath.includes("requester") ? "requester" : "responder";
   const role = capitalize(rawRole);
-  const isRequester = rawRole === "requester";
+  const type = rawRole === "requester" ? "requester" : "responder";
 
-  const resourceScenarios = extractResourceExpectations(json, role, isRequester);
-  const interactionScenarios = extractInteractionExpectations(json, role, isRequester);
+  const resourceScenarios = extractResourceExpectations(json, role, type);
+  const interactionScenarios = extractInteractionExpectations(json, role, type);
+  const searchParamScenarios = extractSearchParameterExpectations(json, role, type);
 
   generateAndWriteFeature({
     role,
@@ -134,5 +170,13 @@ export function parseCapabilityStatement(filePath: string, outputDir?: string): 
     template: interactionFeatureTemplate,
     outputDir,
     fileName: `${role}_supports_interactions.feature`.replace(/\s+/g, "_").toLowerCase()
+  });
+
+  generateAndWriteFeature({
+    role,
+    scenarios: searchParamScenarios,
+    template: searchParamFeatureTemplate,
+    outputDir,
+    fileName: `${role}_supports_search_parameters.feature`.replace(/\s+/g, "_").toLowerCase()
   });
 }
