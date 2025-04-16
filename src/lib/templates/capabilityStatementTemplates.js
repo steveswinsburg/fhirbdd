@@ -16,12 +16,12 @@ export const searchParamFeatureTemplate = `Feature: {{ROLE}} supports Search Par
 
 // === Scenario Templates: Resource Expectations ===
 export const resourceRequesterScenarioTemplate = `  Scenario: {{ROLE}} {{EXPECTATION}} support {{RESOURCE_TYPE}}
-    Given a FHIR client
+    Given we are testing a {{ROLE}}
     Then it {{EXPECTATION}} support the {{RESOURCE_TYPE}} resource
 `;
 
 export const resourceResponderScenarioTemplate = `  Scenario: {{ROLE}} {{EXPECTATION}} support {{RESOURCE_TYPE}}
-    Given a FHIR server 
+    Given we are testing a {{ROLE}}
     Then it {{EXPECTATION}} support the {{RESOURCE_TYPE}} resource
 `;
 
@@ -38,13 +38,11 @@ export const interactionResponderScenarioTemplate = `  Scenario: {{ROLE}} {{EXPE
 
 // === Scenario Templates: Search Parameters ===
 export const searchParamRequesterScenarioTemplate = `  Scenario: {{ROLE}} {{EXPECTATION}} support search parameter {{SEARCH_PARAM}} on {{RESOURCE_TYPE}}
-    Given a FHIR client uses search parameter {{SEARCH_PARAM}} on {{RESOURCE_TYPE}}
-    When reading the capability statement
-    Then it {{EXPECTATION}} declare support for search parameter {{SEARCH_PARAM}} on {{RESOURCE_TYPE}}
+    Given the {{ROLE}} supports the {{RESOURCE_TYPE}} resource 
+    Then it {{EXPECTATION}} support the  {{SEARCH_PARAM}} search parameter
 `;
 
 export const searchParamResponderScenarioTemplate = `  Scenario: {{ROLE}} {{EXPECTATION}} support search parameter {{SEARCH_PARAM}} on {{RESOURCE_TYPE}}
-    Given a FHIR server supports search on {{RESOURCE_TYPE}}
-    When checking the capability statement
-    Then it {{EXPECTATION}} include {{SEARCH_PARAM}} as a supported search parameter
+    Given the {{ROLE}} supports the {{RESOURCE_TYPE}} resource 
+    Then it {{EXPECTATION}} support the  {{SEARCH_PARAM}} search parameter} 
 `;
