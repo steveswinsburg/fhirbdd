@@ -22,8 +22,8 @@ Coming soon
 ### 🛠️ Usage
 
 ```
-firebed generate \
-  --ig ./packages/au.core.tgz \
+firebed \
+  --ig /path/to/package.tgz \
   --output ./features
 ```
 
@@ -53,3 +53,13 @@ PRs welcome! To contribute:
 ## 💬 Feedback
 
 Found a bug or want a feature? Raise an issue to start the discussion.
+
+## 🤓 Developers
+
+```
+npm install
+npm run build
+npm link (as needed)
+npm unlink (as needed)
+```
+

@@ -7,15 +7,26 @@
     "firebed": "dist/cli.js"
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "start": "node dist/cli.js",
-    "test": "jest"
+    "build": "tsup src/cli.ts --format esm,cjs --splitting false --dts",
+    "dev": "tsup src/cli.ts --format esm,cjs --splitting false --watch",
+    "start": "node dist/cli.js"
   },
-  "keywords": ["fhir", "bdd", "gherkin", "cucumber", "test", "cli"],
+  "keywords": [
+    "fhir",
+    "bdd",
+    "gherkin",
+    "cucumber",
+    "test",
+    "cli"
+  ],
   "author": "Steve Swinsburg",
-  "dependencies": {},
+  "dependencies": {
+    "capitalize": "^2.0.4",
+    "tar": "^6.1.11",
+    "tmp": "^0.2.1"
+  },
   "devDependencies": {
+    "@types/node": "^22.14.1",
     "tsup": "^7.0.0",
     "typescript": "^5.0.0"
   }

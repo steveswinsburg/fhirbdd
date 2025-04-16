@@ -8,10 +8,10 @@ program
   .name("firebed")
   .description("Generate BDD tests from FHIR Implementation Guides")
   .version("0.1.0")
-  .option("--ig <path>", "Path to FHIR IG package")
+  .option("--ig <path>", "Path to FHIR IG package (.tgz file)")
   .option("--output <dir>", "Output directory for feature files")
   .action((opts) => {
     run(opts);
   });
 
-program.parse();
+program.parse(process.argv);
