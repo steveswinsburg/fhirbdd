@@ -16,15 +16,13 @@ export const searchParamFeatureTemplate = `Feature: {{ROLE}} supports Search Par
 
 // === Scenario Templates: Resource Expectations ===
 export const resourceRequesterScenarioTemplate = `  Scenario: {{ROLE}} {{EXPECTATION}} support {{RESOURCE_TYPE}}
-    Given a FHIR client is connected
-    When the client reads capability statement for {{RESOURCE_TYPE}}
-    Then it {{EXPECTATION}} include support for {{RESOURCE_TYPE}}
+    Given a FHIR client
+    Then it {{EXPECTATION}} support the {{RESOURCE_TYPE}} resource
 `;
 
 export const resourceResponderScenarioTemplate = `  Scenario: {{ROLE}} {{EXPECTATION}} support {{RESOURCE_TYPE}}
-    Given a FHIR server exposes a capability statement
-    When I inspect support for {{RESOURCE_TYPE}}
-    Then the server {{EXPECTATION}} declare support for {{RESOURCE_TYPE}}
+    Given a FHIR server 
+    Then it {{EXPECTATION}} support the {{RESOURCE_TYPE}} resource
 `;
 
 // === Scenario Templates: Interactions ===
