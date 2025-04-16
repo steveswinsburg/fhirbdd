@@ -39,10 +39,10 @@ export const interactionResponderScenarioTemplate = `  Scenario: {{ROLE}} {{EXPE
 // === Scenario Templates: Search Parameters ===
 export const searchParamRequesterScenarioTemplate = `  Scenario: {{ROLE}} {{EXPECTATION}} support search parameter {{SEARCH_PARAM}} on {{RESOURCE_TYPE}}
     Given the {{ROLE}} supports the {{RESOURCE_TYPE}} resource 
-    Then it {{EXPECTATION}} support the  {{SEARCH_PARAM}} search parameter
+    Then it {{EXPECTATION}} support the {{SEARCH_PARAM}} search parameter
 `;
 
 export const searchParamResponderScenarioTemplate = `  Scenario: {{ROLE}} {{EXPECTATION}} support search parameter {{SEARCH_PARAM}} on {{RESOURCE_TYPE}}
     Given the {{ROLE}} supports the {{RESOURCE_TYPE}} resource 
-    Then it {{EXPECTATION}} support the  {{SEARCH_PARAM}} search parameter} 
+    Then it {{EXPECTATION}} support the {{SEARCH_PARAM}} search parameter
 `;

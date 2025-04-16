@@ -22,7 +22,6 @@ function extractResourceExpectations(json: any, role: string, type: "requester" 
   const scenarios: string[] = [];
   const scenarioTemplate = type === "requester" ? resourceRequesterScenarioTemplate : resourceResponderScenarioTemplate;
 
-
   for (const rest of json.rest || []) {
     for (const resource of rest.resource || []) {
       const resourceType = resource.type;
@@ -96,6 +95,7 @@ function extractSearchParameterExpectations(json: any, role: string, type: "requ
         );
 
         if (ext && param.name) {
+
           const scenario = buildScenario({
             template: scenarioTemplate,
             replacements: {
