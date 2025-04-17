@@ -46,14 +46,14 @@ Feature: Search for Patient by identifier
 
 Now that you have a set of `.feature` files, you can do quite a lot with them 🎉
 
-**Run them manually**
+#### Run them manually
 You can run through the features and scenarios manually and check your system is conformant. Simply open the feature file and run through each line.
 
-**Execute them**
+#### Execute them
 You can load these feature files into a feature file visualisation / execution tool and run each step using a UI. I wrote one specifically for this purpose called [StepRunner](https://github.com/steveswinsburg/steprunner).
 Check it out here: _Vercel link TBD_.
 
-**Automate them**
+#### Automate them
 You can write automated tests based on the steps in the scenarios and execute these via [Cucumber](https://cucumber.io/docs/cucumber/step-definitions), [Selenium0(https://cucumber.io/docs/guides/browser-automation/), or many other testing libraries that support feature files.
 
 ## 🤝 Contributing
