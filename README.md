@@ -1,6 +1,6 @@
-# 🔥 FireBed
+# 🔥 FhirBdd
 
-FireBed is a Cucumber test generator for FHIR Implementation Guides, powered by Behaviour Driven Development (BDD).
+FhirBdd is a Cucumber test generator for FHIR Implementation Guides, powered by Behaviour Driven Development (BDD).
 
 It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` files using Gherkin syntax. Designed for developers, testers, and standards authors who want to ensure conformance through clear, executable scenarios using a behaviour-driven testing appraoch.
 
@@ -22,7 +22,7 @@ Coming soon
 ### 🛠️ Usage
 
 ```
-firebed \
+fhirbdd \
   --ig /path/to/package.tgz \
   --output ./features
 ```
