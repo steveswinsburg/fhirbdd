@@ -17,11 +17,17 @@ It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` 
 ## 🚀 Getting Started
 
 ### 📦 Install
-
-Coming soon
+```
+npm install
+npm run build
+npm link
+```
 
 ### 🛠️ Usage
 
+Navigate to your IG build page and download the published IG tgz file.
+
+Then run:
 ```
 fhirbdd \
   --ig /path/to/package.tgz \
