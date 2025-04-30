@@ -11,7 +11,7 @@ It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` 
 - 🔁 Converts FHIR StructureDefinitions and CapabilityStatements into `.feature` files
 - 🧪 Uses Gherkin syntax for human-readable, executable tests
 - 🌍 Supports any FHIR IG, including AU Core, US Core, and custom packages
-- ⚙️ CLI tool — great for CI/CD pipelines
+- ⚙️ CLI tool - great for CI/CD pipelines
 - 📦 Easy to integrate into Cucumber-based test suites like [StepRunner](https://github.com/steveswinsburg/steprunner)
 
 ## 🚀 Getting Started
