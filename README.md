@@ -4,13 +4,15 @@ FhirBdd is a Cucumber test generator for FHIR Implementation Guides, powered by 
 
 It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` files using Gherkin syntax. Designed for developers, testers, and standards authors who want to ensure conformance through clear, executable scenarios using a behaviour-driven testing appraoch.
 
+[![Node.js CI](https://github.com/steveswinsburg/fhirbdd/actions/workflows/node.js.yml/badge.svg)](https://github.com/steveswinsburg/fhirbdd/actions/workflows/node.js.yml)
+
 ## ✨ Features
 
 - 🔁 Converts FHIR StructureDefinitions and CapabilityStatements into `.feature` files
 - 🧪 Uses Gherkin syntax for human-readable, executable tests
 - 🌍 Supports any FHIR IG, including AU Core, US Core, and custom packages
 - ⚙️ CLI tool — great for CI/CD pipelines
-- 📦 Easy to integrate into Cucumber-based test suites like [StepRunner](https://github.com/steveswinsburg/steprunner))
+- 📦 Easy to integrate into Cucumber-based test suites like [StepRunner](https://github.com/steveswinsburg/steprunner)
 
 ## 🚀 Getting Started
 
