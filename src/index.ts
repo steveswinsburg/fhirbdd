@@ -19,7 +19,7 @@ export function run(options: { ig?: string; output?: string }) {
   }
 
   const tmpDir = tmp.dirSync({ unsafeCleanup: true });
-  console.log(`📦 Extracting IG package to: ${tmpDir.name}`);
+  console.log("Extracting IG package...");
 
   tar.x({
     file: tgzPath,
@@ -28,7 +28,7 @@ export function run(options: { ig?: string; output?: string }) {
     strict: true
   });
 
-  console.log("✅ Extraction complete. Scanning files...");
+  console.log("Scanning files...");
 
   const packageDir = path.join(tmpDir.name, "package");
   const files = fs.readdirSync(packageDir);
@@ -42,7 +42,9 @@ export function run(options: { ig?: string; output?: string }) {
     } else if (file.startsWith("SearchParameter") && file.endsWith(".json")) {
       parseSearchParameter(filePath);
     } else {
-      console.log(`⏩ Skipping unrelated file: ${file}`);
+      //console.log(`Skipping unrelated file: ${file}`);
     }
   }
+
+  console.log("Processing finished.");
 }

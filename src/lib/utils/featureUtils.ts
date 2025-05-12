@@ -48,6 +48,6 @@ export function writeFeatureFile({
   }
 
   fs.writeFileSync(filePathOut, content, "utf-8");
-  console.log(`✅ Wrote feature file: ${filePathOut}`);
+  console.log(`Wrote feature file: ${filePathOut}`);
 }
 

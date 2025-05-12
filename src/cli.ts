@@ -5,7 +5,7 @@ import { run } from "./index";
 const program = new Command();
 
 program
-  .name("firebdd")
+  .name("fhirbdd")
   .description("Generate BDD feature files from FHIR Implementation Guides")
   .version("0.1.0")
   .option("--ig <path>", "Path to FHIR IG package (.tgz file)")

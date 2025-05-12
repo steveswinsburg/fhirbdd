@@ -145,7 +145,7 @@ function generateAndWriteFeature({
 }
 
 export function parseCapabilityStatement(filePath: string, outputDir?: string): void {
-  console.log(`📗 Parsing CapabilityStatement: ${filePath}`);
+  console.log(`Parsing CapabilityStatement: ${path.basename(filePath)}`);
   const content = fs.readFileSync(filePath, "utf-8");
   const json = JSON.parse(content);
   const rawRole = filePath.includes("requester") ? "requester" : "responder";
