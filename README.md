@@ -2,7 +2,7 @@
 
 FhirBdd is a Cucumber test generator for FHIR Implementation Guides, powered by Behaviour Driven Development (BDD).
 
-It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` files using Gherkin syntax. Designed for developers, testers, and standards authors who want to ensure conformance through clear, executable scenarios using a behaviour-driven testing appraoch.
+It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` files using Gherkin syntax. Designed for developers, testers, and standards authors who want to ensure conformance through clear, executable scenarios using a behaviour-driven testing approach.
 
 [![Node.js CI](https://github.com/steveswinsburg/fhirbdd/actions/workflows/node.js.yml/badge.svg)](https://github.com/steveswinsburg/fhirbdd/actions/workflows/node.js.yml)
 
@@ -59,10 +59,10 @@ You can run through the features and scenarios manually and check your system is
 
 #### Execute them
 You can load these feature files into a feature file visualisation / execution tool and run each step using a UI. I wrote one specifically for this purpose called [StepRunner](https://github.com/steveswinsburg/steprunner).
-Check it out here: _Vercel link TBD_.
+Check it out here: https://steprunner-abc1f.web.app/.
 
 #### Automate them
-You can write automated tests based on the steps in the scenarios and execute these via [Cucumber](https://cucumber.io/docs/cucumber/step-definitions), [Selenium0(https://cucumber.io/docs/guides/browser-automation/), or many other testing libraries that support feature files.
+You can write automated tests based on the steps in the scenarios and execute these via [Cucumber](https://cucumber.io/docs/cucumber/step-definitions), [Selenium](https://cucumber.io/docs/guides/browser-automation/), or many other testing libraries that support feature files.
 
 ## 🤝 Contributing
 
