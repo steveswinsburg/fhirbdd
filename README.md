@@ -1,6 +1,6 @@
-# 🔥 FHIRbdd
+# 🔥 FhirBdd
 
-FHIRbdd is a Cucumber test generator for FHIR Implementation Guides, powered by Behaviour Driven Development (BDD).
+FhirBdd is a Cucumber test generator for FHIR® Implementation Guides, powered by Behaviour Driven Development (BDD).
 
 It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` files using Gherkin syntax. Designed for developers, testers, and standards authors who want to ensure conformance through clear, executable scenarios using a behaviour-driven testing approach.
 
@@ -85,4 +85,4 @@ npm unlink (as needed)
 ```
 
 ---
-FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
+FHIR® and the flame icon are the registered trademark of HL7 and are used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of the contents of this website by HL7.
