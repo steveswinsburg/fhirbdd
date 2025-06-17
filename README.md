@@ -78,7 +78,6 @@ Found a bug or want a feature? Raise an issue to start the discussion.
 
 ```
 npm install
-npm run build
 npm link (as needed)
 npm unlink (as needed)
 ```
