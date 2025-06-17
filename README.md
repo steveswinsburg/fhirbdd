@@ -19,7 +19,6 @@ It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` 
 ### 📦 Install
 ```
 npm install
-npm run build
 npm link
 ```
 
@@ -79,7 +78,6 @@ Found a bug or want a feature? Raise an issue to start the discussion.
 
 ```
 npm install
-npm run build
 npm link (as needed)
 npm unlink (as needed)
 ```

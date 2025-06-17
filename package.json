@@ -1,15 +1,14 @@
 {
   "name": "fhirbdd",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Cucumber test generator for FHIR IGs, using BDD.",
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "main.js",
   "bin": {
-    "fhirbdd": "dist/cli.js"
+    "fhirbdd": "src/cli.js"
   },
   "scripts": {
-    "build": "tsup src/cli.ts --format esm,cjs --splitting false --dts",
-    "dev": "tsup src/cli.ts --format esm,cjs --splitting false --watch",
-    "start": "node dist/cli.js"
+    "check": "eslint ."
   },
   "keywords": [
     "fhir",
@@ -22,12 +21,13 @@
   "author": "Steve Swinsburg",
   "dependencies": {
     "capitalize": "^2.0.4",
+    "commander": "^14.0.0",
     "tar": "^6.1.11",
     "tmp": "^0.2.1"
   },
   "devDependencies": {
-    "@types/node": "^22.14.1",
-    "tsup": "^7.0.0",
-    "typescript": "^5.0.0"
+    "@eslint/js": "^9.29.0",
+    "eslint": "^9.29.0",
+    "globals": "^16.2.0"
   }
 }
