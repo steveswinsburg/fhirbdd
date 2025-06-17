@@ -19,7 +19,6 @@ It takes your FHIR IG and turns it into ready-to-run, human-readable `.feature` 
 ### 📦 Install
 ```
 npm install
-npm run build
 npm link
 ```
 
