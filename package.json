@@ -22,6 +22,7 @@
   "dependencies": {
     "capitalize": "^2.0.4",
     "commander": "^14.0.0",
+    "fhirpath": "^4.4.0",
     "tar": "^6.1.11",
     "tmp": "^0.2.1"
   },
