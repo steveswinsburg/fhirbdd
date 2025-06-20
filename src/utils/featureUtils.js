@@ -15,5 +15,6 @@ export function buildScenario({ template, replacements }) {
 
 export function writeFeatureFile({ content, outputDir, fileName }) {
   const filePathOut = outputDir ? path.join(outputDir, fileName) : fileName;
+  fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(filePathOut, content, { encoding: "utf-8" });
 }

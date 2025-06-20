@@ -145,9 +145,6 @@ function extractCombinationSearchParamExpectations(rest, role) {
       (ext) => ext.url === "http://hl7.org/fhir/StructureDefinition/capabilitystatement-search-parameter-combination"
     ) || [];
 
-    console.log(`Checking resource: ${resource.type}`);
-    console.log(`Found ${combinations.length} combination extensions`);
-
     for (const combo of combinations) {
       const expectation = combo.extension?.find(
         (e) => e.url === "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation"
