@@ -24,19 +24,31 @@ npm link
 
 ### 🛠️ Usage
 
-Navigate to your IG build page and download the published IG tgz file.
+You can generate feature files from either a *local* or *remote* FHIR IG .tgz package.
 
-Then run:
+#### 👉 Local .tgz file
+
+Download your FHIR IG .tgz file (from your IG build page), then run:
+
 ```
 fhirbdd \
-  --ig /path/to/package.tgz \
+  --file /path/to/package.tgz \
   --output ./features
 ```
 
-Options:
+#### 🌐 Remote .tgz file
+If your IG is published and hosted online:
 ```
---ig - Path to your FHIR IG package (.tgz)
---output - Directory to save generated feature files
+fhirbdd \
+  --url https://example.org/path/to/package.tgz \
+  --output ./features
+```
+
+#### 🧩 Options:
+```
+--file - Path to a local FHIR IG .tgz file
+--url - URL to a remote FHIR IG .tgz file
+--output - Directory to save the generated feature files
 ```
 
 ### 🧪 Example Output
