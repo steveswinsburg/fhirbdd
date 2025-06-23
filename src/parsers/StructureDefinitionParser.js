@@ -5,80 +5,58 @@ import {
   mustSupportScenarioWithoutObligationsTemplate
 } from "../templates/structureDefinitionTemplates.js";
 
-// to allow for additional IG support, we map actors to their readable names
 const actorMap = {
-  "http://hl7.org.au/fhir/core/ActorDefinition/au-core-actor-requester": "AU Core Requester",
-  "http://hl7.org.au/fhir/core/ActorDefinition/au-core-actor-responder": "AU Core Responder"
+  "http://hl7.org.au/fhir/core/ActorDefinition/au-core-actor-requester": "Requester",
+  "http://hl7.org.au/fhir/core/ActorDefinition/au-core-actor-responder": "Responder",
+  "http://hl7.org/fhir/uv/ips/ActorDefinition/Producer": "Producer",
+  "http://hl7.org/fhir/uv/ips/ActorDefinition/Consumer": "Consumer"
+  // Add additional actors here
 };
 
 export function parseStructureDefinition(json, outputDir) {
-
-  const { requesterMustSupportScenarios, responderMustSupportScenarios, otherMustSupportScenarios } = extractMustSupportElements(json);
-
-  // use this, not type as type might be Observation but name is a profile of that, ie AUCoreWaistCircumference
   const name = json.name;
-  
-  if (requesterMustSupportScenarios.length > 0) {
-    writeFeatureFile({
-      content: buildFeature({ template: mustSupportFeatureTemplate, replacements: { RESOURCE: name }, scenarios: requesterMustSupportScenarios }),
-      outputDir,
-      fileName: `${name}-Requester-must-support.feature`
-    });
-  }
+  const scenarioGroups = extractMustSupportElements(json);
 
-  if (responderMustSupportScenarios.length > 0) {
+  for (const [actor, scenarios] of Object.entries(scenarioGroups)) {
     writeFeatureFile({
-      content: buildFeature({ template: mustSupportFeatureTemplate, replacements: { RESOURCE: name }, scenarios: responderMustSupportScenarios }),
+      content: buildFeature({
+        template: mustSupportFeatureTemplate,
+        replacements: { RESOURCE: name },
+        scenarios
+      }),
       outputDir,
-      fileName: `${name}-Responder-must-support.feature`
+      fileName: `${name}-${actor.replace(/ /g, "_")}-must-support.feature`
     });
-  }
 
-  if (otherMustSupportScenarios.length > 0) {
-    writeFeatureFile({
-      content: buildFeature({ template: mustSupportFeatureTemplate, replacements: { RESOURCE: name }, scenarios: otherMustSupportScenarios }),
-      outputDir,
-      fileName: `${name}-must-support.feature`
-    });
+    console.log(`- ${actor} must supports: ${scenarios.length}`);
   }
-
-  console.log(`Parsed ${name} must supports:`);
-  console.log(`- Requester must supports: ${requesterMustSupportScenarios.length}`);
-  console.log(`- Responder must supports: ${responderMustSupportScenarios.length}`);
-  console.log(`- Other must supports: ${otherMustSupportScenarios.length}`);
-  
 }
 
 function extractMustSupportElements(json) {
   const resource = json?.type;
-  const name = json?.name;
   const elements = json?.snapshot?.element || [];
 
-  const scenarioGroups = {
-    requesterMustSupportScenarios: [],
-    responderMustSupportScenarios: [],
-    otherMustSupportScenarios: []
-  };
+  const scenarioGroups = {}; // actor => [scenarios]
 
   for (const el of elements) {
     if (!el.mustSupport) continue;
 
     const id = el.id;
-
-    const obligations = (el.extension || []).filter(ext =>
-      ext.url === "http://hl7.org/fhir/StructureDefinition/obligation"
+    const obligations = (el.extension || []).filter(
+      (ext) => ext.url === "http://hl7.org/fhir/StructureDefinition/obligation"
     );
 
     let matched = false;
 
-    // Create a scenario for must supports that have obligations
     for (const obligation of obligations) {
-      const actorExt = obligation.extension.find(e => e.url === "actor");
-      const codeExt = obligation.extension.find(e => e.url === "code");
+      const actorExt = obligation.extension.find((e) => e.url === "actor");
+      const codeExt = obligation.extension.find((e) => e.url === "code");
 
+      // Ensure both actor and code extensions are present  
       if (actorExt && codeExt) {
         const actorCanonical = actorExt.valueCanonical;
         const actor = actorMap[actorCanonical] || actorCanonical;
+
         const scenario = buildScenario({
           template: mustSupportScenarioWithObligationsTemplate,
           replacements: {
@@ -89,31 +67,27 @@ function extractMustSupportElements(json) {
           }
         });
 
-        if (actor.includes("Requester")) {
-          scenarioGroups.requesterMustSupportScenarios.push(scenario);
-        } else if (actor.includes("Responder")) {
-          scenarioGroups.responderMustSupportScenarios.push(scenario);
-        } else {
-          scenarioGroups.otherMustSupportScenarios.push(scenario);
-        }
-
+        scenarioGroups[actor] ??= [];
+        scenarioGroups[actor].push(scenario);
         matched = true;
       }
     }
 
-    // If no obligations, we still want to create a scenario for the element
+    // If no obligations matched, create a fallback scenario
     if (!matched && obligations.length === 0) {
+      const fallbackActor = "System";
       const scenario = buildScenario({
         template: mustSupportScenarioWithoutObligationsTemplate,
         replacements: {
-          ACTOR: "System",
+          ACTOR: fallbackActor,
           ELEMENT_ID: id,
           RESOURCE: resource
         }
       });
-      scenarioGroups.otherMustSupportScenarios.push(scenario);
-    }
 
+      scenarioGroups[fallbackActor] ??= [];
+      scenarioGroups[fallbackActor].push(scenario);
+    }
   }
 
   return scenarioGroups;
