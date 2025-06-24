@@ -5,19 +5,31 @@ import {
   mustSupportScenarioWithoutObligationsTemplate
 } from "../templates/structureDefinitionTemplates.js";
 
+// Actor map used to convert canonical URLs to display names for actors
 const actorMap = {
-  "http://hl7.org.au/fhir/core/ActorDefinition/au-core-actor-requester": "Requester",
-  "http://hl7.org.au/fhir/core/ActorDefinition/au-core-actor-responder": "Responder",
-  "http://hl7.org/fhir/uv/ips/ActorDefinition/Producer": "Producer",
-  "http://hl7.org/fhir/uv/ips/ActorDefinition/Consumer": "Consumer"
+  "http://hl7.org.au/fhir/core/ActorDefinition/au-core-actor-requester": "AU Core Requester",
+  "http://hl7.org.au/fhir/core/ActorDefinition/au-core-actor-responder": "AU Core Responder",
+  "http://hl7.org/fhir/uv/ips/ActorDefinition/Producer": "AU PS Producer",
+  "http://hl7.org/fhir/uv/ips/ActorDefinition/Consumer": "AU PS Consumer",
+  "http://hl7.org.au/fhir/ereq/ActorDefinition/au-erequesting-actor-placer": "AU eRequesting Placer",
+  "http://hl7.org.au/fhir/ereq/ActorDefinition/au-erequesting-actor-filler": "AU eRequesting Filler",
+  "http://hl7.org.au/fhir/ereq/ActorDefinition/au-erequesting-actor-patient": "AU eRequesting Patient",
+  "http://hl7.org.au/fhir/ereq/ActorDefinition/au-erequesting-actor-server": "AU eRequesting Server"
   // Add additional actors here
 };
 
 export function parseStructureDefinition(json, outputDir) {
   const name = json.name;
-  const scenarioGroups = extractMustSupportElements(json);
+  const resource = json.type;
+  const mustSupports = json?.snapshot?.element || [];
+
+  console.log(`Parsing file: ${json.id}.json`);
+
+  const scenarioGroups = extractMustSupportElements(mustSupports, resource);
 
   for (const [actor, scenarios] of Object.entries(scenarioGroups)) {
+    const safeActorName = actor.replace(/[^a-zA-Z0-9_-]/g, "_");
+
     writeFeatureFile({
       content: buildFeature({
         template: mustSupportFeatureTemplate,
@@ -25,24 +37,21 @@ export function parseStructureDefinition(json, outputDir) {
         scenarios
       }),
       outputDir,
-      fileName: `${name}-${actor.replace(/ /g, "_")}-must-support.feature`
+      fileName: `${name}-${safeActorName}-must-support.feature`
     });
 
     console.log(`- ${actor} must supports: ${scenarios.length}`);
   }
 }
 
-function extractMustSupportElements(json) {
-  const resource = json?.type;
-  const elements = json?.snapshot?.element || [];
+function extractMustSupportElements(elements, resource) {
+  const scenarioGroups = {}; // dynamic keys based on actor name
 
-  const scenarioGroups = {}; // actor => [scenarios]
+  for (const element of elements) {
+    if (!element.mustSupport) continue;
 
-  for (const el of elements) {
-    if (!el.mustSupport) continue;
-
-    const id = el.id;
-    const obligations = (el.extension || []).filter(
+    const id = element.id;
+    const obligations = (element.extension || []).filter(
       (ext) => ext.url === "http://hl7.org/fhir/StructureDefinition/obligation"
     );
 
@@ -51,26 +60,24 @@ function extractMustSupportElements(json) {
     for (const obligation of obligations) {
       const actorExt = obligation.extension.find((e) => e.url === "actor");
       const codeExt = obligation.extension.find((e) => e.url === "code");
+      if (!actorExt || !codeExt) continue;
 
-      // Ensure both actor and code extensions are present  
-      if (actorExt && codeExt) {
-        const actorCanonical = actorExt.valueCanonical;
-        const actor = actorMap[actorCanonical] || actorCanonical;
+      const actorUrl = actorExt.valueCanonical;
+      const actorName = actorMap[actorUrl] || actorUrl;
 
-        const scenario = buildScenario({
-          template: mustSupportScenarioWithObligationsTemplate,
-          replacements: {
-            ACTOR: actor,
-            ELEMENT_ID: id,
-            RESOURCE: resource,
-            OBLIGATION: codeExt.valueCode
-          }
-        });
+      const scenario = buildScenario({
+        template: mustSupportScenarioWithObligationsTemplate,
+        replacements: {
+          ACTOR: actorName,
+          ELEMENT_ID: id,
+          RESOURCE: resource,
+          OBLIGATION: codeExt.valueCode
+        }
+      });
 
-        scenarioGroups[actor] ??= [];
-        scenarioGroups[actor].push(scenario);
-        matched = true;
-      }
+      scenarioGroups[actorName] ??= [];
+      scenarioGroups[actorName].push(scenario);
+      matched = true;
     }
 
     // If no obligations matched, create a fallback scenario
